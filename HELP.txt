@@ -1,0 +1,277 @@
+,--,--,--. ,--,--.,--.--.,--.,--. 
+|        |' ,-.  ||  .--'|  ||  | 
+|  |  |  |\ '-'  ||  |   '  ''  ' 
+`--`--`--' `--`--'`--'    `----'  
+
+PLEASE READ BEFORE INSTALLING
+=============================
+
+Before deciding to install the PIONUX beta on your device, please be aware of the
+following:
+
+**Installing PIONUX will wipe all of your personal data so please back up anything
+important!**
+
+You can back up important stuff like photos/videos/text messages/call logs
+somewhere off of your device, like your PC or the cloud. There are several apps
+available from the Play store that can help you with this--just search "backup".
+
+If you use a custom recovery that supports backups like TWRP, make sure to take
+a complete device backup before installing PIONUX using the update zip.
+
+**Ensure you use the correct installer for your device!**
+
+Please double-check that the codename in the installer zip matches your device's
+codename. For example, PIONUX-v0.3-installer-hammerhead-windows-6773e9ba.zip is
+only for hammerhead (Nexus 5).
+
+**DISCLAIMER**: The PIONUX OS Project authors will not be held responsible for any
+loss of data or damage to your device. Keep in mind that installing aftermarket
+firmware may void your device's warranty.
+
+IF YOU ALREADY HAVE A CUSTOM RECOVERY
+-------------------------------------
+
+Update: PIONUX OS now has a standard update zip that you can flash with TWRP just
+like any other ROM--use that instead!
+
+Our installer assumes you have a basic stock setup with stock recovery. It will
+format cache and userdata, then flash boot and system. On the Nexus 5, this will
+wipe any back-ups you have made with a custom recovery like TWRP since the Nexus
+5 emulates /sdcard on userdata, so watch out!
+
+You may be able to get around this by manually flashing boot and system and then
+immediately entering your custom recovery and doing a cache wipe and factory
+reset from there.
+
+
+INSTALLING
+==========
+
+Installing PIONUX on your device is easy!
+
+Just run the interactive installer script and follow along.
+
+Mac
+---
+
+Navigate to the unzipped installer folder, right-click (Control + click) "install",
+and select Open.
+
+Tip: Depending on your security settings, you may get a dialog that says
+"install is from an unidentified developer. Are you sure you want to open it?".
+Please select Open. See https://support.apple.com/kb/PH21769?locale=en_US for
+more details. We promise we're not malware :)
+
+
+Linux
+-----
+
+Open a terminal, cd to the unzipped installer, and run the "install.sh" script with:
+
+    $ ./install.sh
+
+
+Windows
+-------
+
+First, install the Google USB Driver to communicate with Nexus devices:
+
+1.  Enable USB Debugging on your device (see HOW TO ENABLE USB DEBUGGING below)
+
+2.  Download the driver from http://developer.android.com/sdk/win-usb.html
+
+3.  Install the driver following the instructions on
+    http://developer.android.com/tools/extras/oem-usb.html#InstallingDriver
+
+    NOTE: Step 3 for Windows 7 says "Select 'Devices' in the left pane". If you
+    don't see 'Devices', look instead for 'Device Manager'.
+
+Then navigate to the unzipped installer folder and double-click "install".
+
+Tip: We have found that installing the Google USB Driver can be very confusing.
+You may need to select the driver for your device multiple times before
+Windows finally installs it correctly. You may also need to wait while Windows
+installs the driver a second time after your device boots into recovery mode.
+
+
+UNINSTALLING / RESTORING TO FACTORY
+===================================
+
+If you've installed PIONUX and decided you want to get your device back to
+the way it was, you can easily re-install your factory image with our
+interactive uninstaller.
+
+Grab your device's factory image for the Android version you would like from
+https://developers.google.com/android/images and follow along.
+
+NOTE: You will have to enable USB Debugging again even if you already did so for
+installing PIONUX. (You must be a pro at this by now!)
+
+Mac
+---
+
+Navigate to the unzipped installer folder, right-click (Control + click) "uninstall",
+and select Open.
+
+Tip: Depending on your security settings, you may get a dialog that says
+"uninstall is from an unidentified developer. Are you sure you want to open it?".
+Please select Open. See https://support.apple.com/kb/PH21769?locale=en_US for
+more details. We promise we're not malware :)
+
+
+Linux
+-----
+
+Open a terminal, cd to the unzipped installer, and run the "uninstall.sh" script with:
+
+    $ ./uninstall.sh
+
+
+Windows
+-------
+
+Navigate to the unzipped installer folder and double-click "uninstall".
+
+
+You should now have a fresh factory installation on your device.
+
+
+RESTORING GOOGLE APPS
+=====================
+
+If you would like to restore access to the Play store for your device, you will
+need to do a little extra work.
+
+We have had success using the TWRP custom recovery to restore Google apps:
+
+1.  Download Play apps from a 3rd party packager like Open Gapps and save it in
+    the same directory you unzipped the PIONUX installer:
+
+    http://opengapps.org/?arch=arm&api=6.0&variant=pico
+
+2.  Download the latest TWRP for your device and save it in the same directory
+    you unzipped the PIONUX installer:
+
+    https://twrp.me/Devices/
+
+3.  Connect your device to your computer, enable USB Debugging,
+    and follow the instructions below depending on your platform:
+
+    (Make sure to substitute the correct name of the file you downloaded for anything in brackets)
+
+    Mac or Linux
+    ------------
+
+    Open up a terminal and run the following:
+
+    $ cd <unzipped pionux installer directory>
+    $ ./adb push -p <gapps filename>.zip /sdcard/
+    $ ./adb reboot bootloader
+    $ ./fastboot flash recovery <twrp filename>.img
+
+    Windows
+    -------
+
+    Open up Command Prompt and run the following:
+
+    $ cd <unzipped pionux installer directory>
+    $ adb push -p <gapps filename>.zip /sdcard/
+    $ adb reboot bootloader
+    $ fastboot flash recovery <twrp filename>.img
+
+
+You will now be in the bootloader and need to do a few more steps:
+
+4.  Use the <Volume Up> button on your device to cycle through the bootloader options
+    to "Recovery mode" and hit the <Power> button to boot into TWRP recovery
+
+    (You will be greeted by a screen that allows you to "Keep Read Only" or "Swipe to Allow
+    Modifications". It's safest to tap "Keep Read Only": TWRP will be replaced by your stock
+    recovery after your phone reboots. Alternatively, if you would like to keep TWRP recovery
+    on your device after your phone reboots, swipe right.)
+
+5.  Tap "Install"
+
+6.  Tap the Google apps zip file that you downloaded earlier (you may need to scroll down)
+
+7.  Swipe to confirm flash of the Google apps
+
+8.  Tap "Reboot System" to reboot back into PIONUX
+
+    (You may be asked to install SuperSU to root your device. If you know what rooting your
+    device means and want to have it rooted then go ahead. Otherwise, it's best to tap
+    "Do Not Install".)
+
+You should now have Google Play apps!
+
+
+HOW TO ENABLE USB DEBUGGING
+===========================
+
+You'll see instructions to enable USB Debugging as the first step before
+running our installer or uninstaller. Enabling USB Debugging is important
+because it lets the PIONUX installer talk to your device.
+
+1.  Go to the Settings app and scroll down to the System section
+
+    NOTE: If you already have "Developer options"
+    under System then go directly to #5
+
+2.  Tap on "About phone"
+3.  Tap "Build number" 7 times until you get a message
+    that says you are now a developer
+4.  Go back to the Settings app and scroll down to the System section again
+5.  Tap on "Developer options"
+6.  Ensure that "USB debugging" is enabled
+7.  Tap "OK" if you see a dialog asking you to allow USB Debugging for
+    your computer's RSA key fingerprint (you may have to do this multiple
+    times unless you check "Always allow from this computer")
+
+Remember that you will have to enable USB Debugging again whenever your
+device factory resets (after unlocking your bootloader for example) or
+completes a fresh install.
+
+
+COMPATIBILITY
+=============
+
+This installer has been officially tested on the following platforms.
+
+
+Mac
+---
+
+64-bit only.
+
+- OS X 10.10 Yosemite (experimental -- may freeze keyboard and trackpad)
+- OS X 10.11 El Capitan
+
+
+Linux
+-----
+
+64-bit only.
+
+- Ubuntu 14.04
+- Arch Linux
+
+
+Windows
+-------
+
+- Windows XP
+- Windows 7
+
+
+ISSUES
+======
+
+Please file any bugs or feature requests as issues on the central PIONUX OS
+repository:
+
+https://github.com/pionuxos/pionuxos
+
+You can also find help by explaining your issue in the PIONUX OS forum:
+
+https://groups.google.com/forum/#!forum/pionux-os
